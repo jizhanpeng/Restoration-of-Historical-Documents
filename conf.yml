@@ -1,0 +1,58 @@
+
+# model
+IMAGE_SIZE : [512, 512]   # load image size, if it's train mode, it will be randomly cropped to IMAGE_SIZE. If it's test mode, it will be resized to IMAGE_SIZE.
+CHANNEL_X : 8             # input channel
+CHANNEL_Y : 3             # output channel
+TIMESTEPS : 20           # diffusion steps
+SCHEDULE : 'linear'       # linear or cosine
+MODEL_CHANNELS : 32       # basic channels of Unet
+NUM_RESBLOCKS : 1         # number of residual blocks
+CHANNEL_MULT : [1,2,3,4]  # channel multiplier of each layer
+NUM_HEADS : 1
+
+MODE : 0                  # 1 Train, 0 Test
+PRE_ORI : 'True'          # if True, predict $x_0$, else predict $\epsilon$.
+
+# train
+de_type : ['character_missing', 'ink_erosion', 'paper_damage']
+character_missing_dir : '/home/dqxy/xyj/xyjjzp/DocDiff-main-1/dataset/HDR28K/character_missing'
+ink_erosion_dir : '/home/dqxy/xyj/xyjjzp/DocDiff-main-1/dataset/HDR28K/ink_erosion/'
+paper_damage_dir : '/home/dqxy/xyj/xyjjzp/DocDiff-main-1/dataset/HDR28K/paper_damage/'
+data_file_dir : 'data_train_txt/'
+data_file_dir_test : 'data_test_txt/'
+BATCH_SIZE : 6          # training batch size
+NUM_WORKERS : 4           # number of workers
+ITERATION_MAX : 450000   # max training iteration
+LR : 0.0001               # learning rate
+LOSS : 'L2'               # L1 or L2
+EMA_EVERY : 100           # update EMA every EMA_EVERY iterations
+START_EMA : 2000          # start EMA after START_EMA iterations
+SAVE_MODEL_EVERY : 952  # save model every SAVE_MODEL_EVERY iterations
+EMA: 'True'               # if True, use EMA
+CONTINUE_TRAINING : 'False'               # if True, continue training
+CONTINUE_TRAINING_STEPS : 0           # continue training from CONTINUE_TRAINING_STEPS
+PRETRAINED_PATH_INITIAL_PREDICTOR : './checksave/model_init_ema_450296.pth'    # path of pretrained initial predictor
+PRETRAINED_PATH_DENOISER : './checksave/model_denoiser_ema_450296.pth'             # path of pretrained denoiser
+WEIGHT_SAVE_PATH : './checksave'          # path to save model
+TRAINING_PATH : './Training'              # path of training data
+BETA_LOSS : 50            # hyperparameter to balance the pixel loss and the diffusion loss
+HIGH_LOW_FREQ : 'True'    # if True, training with frequency separation
+
+
+# test
+NATIVE_RESOLUTION : 'False'               # if True, test with native resolution
+DPM_SOLVER : 'False'      # if True, test with DPM_solver
+DPM_STEP : 20             # DPM_solver step
+BATCH_SIZE_VAL : 6        # test batch size
+TEST_PATH_DAMAGED : ''
+TEST_PATH_MASK : ''
+TEST_PATH_CONTENT : ''
+TEST_PATH_GT : ''
+TEST_INITIAL_PREDICTOR_WEIGHT_PATH : './checksave/model_init_ema_450296.pth'   # path of initial predictor
+TEST_DENOISER_WEIGHT_PATH : './checksave/model_denoiser_ema_450296.pth'            # path of denoiser
+
+TEST_IMG_SAVE_PATH : './results'          # path to save results
+
+test_init_predict_save_path : './results/init_predict'
+test_sampledImgs_save_path : './results/sampledImgs'
+test_finalImgs_save_path : './results/finalImgs'
